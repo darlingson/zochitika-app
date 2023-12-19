@@ -66,4 +66,5 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
 }
