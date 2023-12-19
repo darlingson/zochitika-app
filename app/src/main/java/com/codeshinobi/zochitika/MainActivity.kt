@@ -10,18 +10,21 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.codeshinobi.zochitika.models.Post
 import com.codeshinobi.zochitika.ui.theme.ZochitikaTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.net.URL
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import java.net.URL
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -32,6 +35,7 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color fr
                 Scaffold { innerPadding ->
                     Text(text = "Hi there!", modifier = Modifier.padding(innerPadding))
+                    DisplayDataFromEndpoint()
                 }
             }
         }
