@@ -2,7 +2,6 @@ package com.codeshinobi.zochitika
 
 import android.content.Context
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
@@ -59,11 +58,11 @@ fun DisplayDataFromEndpoint() {
         }
     }
 
-//    Column {
-//        data?.forEach { post ->
-//            Text(text = post.title)
-//        } ?: Text(text = "Loading...")
-//    }
+    Column {
+        data?.forEach { post ->
+            post.title?.let { Text(text = it) }
+        } ?: Text(text = "Loading...")
+    }
 }
 
 private val json = Json { ignoreUnknownKeys = true }
@@ -71,7 +70,7 @@ private val json = Json { ignoreUnknownKeys = true }
 suspend fun fetchDataFromEndpoint(context:Context): List<Post> {
     return withContext(Dispatchers.IO) {
         val response = URL("https://jsonplaceholder.typicode.com/posts").readText()
-        Toast.makeText(context, response, Toast.LENGTH_LONG).show();
+//        Toast.makeText(context, response, Toast.LENGTH_LONG).show();
         json.decodeFromString<List<Post>>(response)
     }
 }
