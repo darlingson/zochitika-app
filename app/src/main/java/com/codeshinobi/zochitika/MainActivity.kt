@@ -19,7 +19,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import com.codeshinobi.zochitika.models.Post
+import com.codeshinobi.zochitika.models.Chochitika
 import com.codeshinobi.zochitika.ui.theme.ZochitikaTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -50,7 +50,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DisplayDataFromEndpoint() {
     val coroutineScope = rememberCoroutineScope()
-    var data by remember { mutableStateOf<List<Post>?>(null) }
+//    var data by remember { mutableStateOf<List<Post>?>(null) }
+    var data by remember { mutableStateOf<List<Chochitika>?>(null) }
     val context:Context = LocalContext.current
     LaunchedEffect(Unit) {
         coroutineScope.launch {
@@ -67,11 +68,12 @@ fun DisplayDataFromEndpoint() {
 
 private val json = Json { ignoreUnknownKeys = true }
 
-suspend fun fetchDataFromEndpoint(context:Context): List<Post> {
+suspend fun fetchDataFromEndpoint(context:Context): List<Chochitika> {
     return withContext(Dispatchers.IO) {
-        val response = URL("https://jsonplaceholder.typicode.com/posts").readText()
+//        val response = URL("https://jsonplaceholder.typicode.com/posts").readText()
 //        Toast.makeText(context, response, Toast.LENGTH_LONG).show();
-        json.decodeFromString<List<Post>>(response)
+        val response = URL("https://darlingson.pythonanywhere.com/zochitika").readText()
+        json.decodeFromString<List<Chochitika>>(response)
     }
 }
 
