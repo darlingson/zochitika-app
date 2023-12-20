@@ -1,6 +1,8 @@
 package com.codeshinobi.zochitika
 
+import android.content.Context
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
@@ -16,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.codeshinobi.zochitika.models.Post
 import com.codeshinobi.zochitika.ui.theme.ZochitikaTheme
@@ -34,8 +37,12 @@ class MainActivity : ComponentActivity() {
             ZochitikaTheme {
                 // A surface container using the 'background' color fr
                 Scaffold { innerPadding ->
-                    Text(text = "Hi there!", modifier = Modifier.padding(innerPadding))
-                    DisplayDataFromEndpoint()
+                    Column(
+                        modifier = Modifier.padding(innerPadding)
+                    ) {
+                        Text(text = "Hi there!", modifier = Modifier.padding(innerPadding))
+                        DisplayDataFromEndpoint()
+                    }
                 }
             }
         }
@@ -45,24 +52,27 @@ class MainActivity : ComponentActivity() {
 fun DisplayDataFromEndpoint() {
     val coroutineScope = rememberCoroutineScope()
     var data by remember { mutableStateOf<List<Post>?>(null) }
-
+    val context:Context = LocalContext.current
     LaunchedEffect(Unit) {
         coroutineScope.launch {
-            data = fetchDataFromEndpoint()
+            data = fetchDataFromEndpoint(context)
         }
     }
 
-    Column {
-        data?.forEach { post ->
-            Text(text = post.title)
-        } ?: Text(text = "Loading...")
-    }
+//    Column {
+//        data?.forEach { post ->
+//            Text(text = post.title)
+//        } ?: Text(text = "Loading...")
+//    }
 }
 
-suspend fun fetchDataFromEndpoint(): List<Post> {
+private val json = Json { ignoreUnknownKeys = true }
+
+suspend fun fetchDataFromEndpoint(context:Context): List<Post> {
     return withContext(Dispatchers.IO) {
         val response = URL("https://jsonplaceholder.typicode.com/posts").readText()
-        Json { ignoreUnknownKeys = true }.decodeFromString<List<Post>>(response)
+        Toast.makeText(context, response, Toast.LENGTH_LONG).show();
+        json.decodeFromString<List<Post>>(response)
     }
 }
 
