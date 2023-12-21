@@ -3,4 +3,5 @@
     <string name="product_list_text_screen_title">product list</string>
     <string name="product_details_text_screen_title">product details</string>
     <string name="add_product_text_screen_title">add product</string>
+    <string name="title_activity_chochitika_info">ChochitikaInfo</string>
 </resources>

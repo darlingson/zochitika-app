@@ -1,10 +1,12 @@
 package com.codeshinobi.zochitika
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,7 +28,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat.startActivity
 import com.codeshinobi.zochitika.models.Chochitika
+import com.codeshinobi.zochitika.screens.ChochitikaInfo
 import com.codeshinobi.zochitika.ui.theme.ZochitikaTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -66,7 +70,16 @@ fun DisplayDataFromEndpoint() {
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(8.dp),
+                        .padding(8.dp)
+                        .clickable {
+                            // Handle click event here
+                            Log.d("CardClick", "Card clicked: ${it[item].title}")
+                            val intent = Intent(context, ChochitikaInfo::class.java)
+                            intent.putExtra("title", it[item].title)
+                            intent.putExtra("organiser", it[item].organiser)
+                            intent.putExtra("date", it[item].date)
+                            startActivity(context, intent, null)
+                                   },
                 ) {
                     Column(
                         modifier = Modifier
@@ -75,6 +88,7 @@ fun DisplayDataFromEndpoint() {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Text(text = it[item].title ?: "No Title")
+                        Text(text = "by : ${it[item].organiser ?: "No Author"}")
                         Text(text = it[item].date ?: "No Date")
                     }
                 }
