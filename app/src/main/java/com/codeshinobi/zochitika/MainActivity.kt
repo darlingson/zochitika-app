@@ -2,6 +2,7 @@ package com.codeshinobi.zochitika
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
@@ -70,10 +71,14 @@ private val json = Json { ignoreUnknownKeys = true }
 
 suspend fun fetchDataFromEndpoint(context:Context): List<Chochitika> {
     return withContext(Dispatchers.IO) {
-//        val response = URL("https://jsonplaceholder.typicode.com/posts").readText()
-//        Toast.makeText(context, response, Toast.LENGTH_LONG).show();
-        val response = URL("https://darlingson.pythonanywhere.com/zochitika").readText()
-        json.decodeFromString<List<Chochitika>>(response)
+        try {
+            val response = URL("https://darlingson.pythonanywhere.com/zochitika").readText()
+            Log.d("EndpointResponse", response) // Log the response
+            json.decodeFromString<List<Chochitika>>(response)
+        } catch (e: Exception) {
+            Log.e("FetchDataError", "Error fetching data from endpoint", e)
+            emptyList() // Return an empty list in case of an error
+        }
     }
 }
 
