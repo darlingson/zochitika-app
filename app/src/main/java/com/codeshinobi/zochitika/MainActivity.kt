@@ -98,8 +98,10 @@ fun MainScreen() {
             )
         },
         content = {
-            Text(text = "Zochitila",Modifier.padding(it))
-            DisplayDataFromEndpoint()
+            Column(Modifier.padding(it)) {
+                Text(text = "Zochitila",)
+                DisplayDataFromEndpoint()
+            }
         }
     )
 }
