@@ -1,6 +1,7 @@
 package com.codeshinobi.zochitika.screens
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,12 +14,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.codeshinobi.zochitika.screens.ui.theme.ZochitikaTheme
@@ -79,8 +82,21 @@ fun EventInfo(intent: Intent) {
         Text(text = "on : ${date}")
         Text(text = "Start Time : ${time}")
         Text(text = "address : ${address}")
-
-
+        GMButton(title = "view location")
+    }
+}
+@Composable
+fun GMButton(title: String) {
+    val context = LocalContext.current
+    Button(onClick = {
+        val gmmIntentUri = Uri.parse("geo:0,0?q=1600+Amphitheatre+Parkway,+Mountain+View,+California")
+        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+        mapIntent.setPackage("com.google.android.apps.maps")
+        if (mapIntent.resolveActivity(context.packageManager) != null) {
+            context.startActivity(mapIntent)
+        }
+    }) {
+        Text("Open Google Maps")
     }
 }
 @Composable
