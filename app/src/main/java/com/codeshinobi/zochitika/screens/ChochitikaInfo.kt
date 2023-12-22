@@ -78,18 +78,25 @@ fun EventInfo(intent: Intent) {
     Column {
         Text(text = title)
         Text(text = "by : ${organiser}")
+        Text(text = "description : ${description}")
         Text(text = "at : ${location}")
         Text(text = "on : ${date}")
         Text(text = "Start Time : ${time}")
         Text(text = "address : ${address}")
-        GMButton(title = "view location")
+        Text(text = "type : ${type}")
+        Text(text = "Fee : ${entry_fee}")
+        if (coordinates.isNotEmpty())
+            GMButton(title = "view location", coordinates = coordinates)
+        else if (address.isNotEmpty())
+            Text(text = "coordinates : ${coordinates}")
     }
 }
 @Composable
-fun GMButton(title: String) {
+fun GMButton(title: String, coordinates: String) {
     val context = LocalContext.current
     Button(onClick = {
-        val gmmIntentUri = Uri.parse("geo:0,0?q=1600+Amphitheatre+Parkway,+Mountain+View,+California")
+//        val gmmIntentUri = Uri.parse("geo:0,0?q=1600+Amphitheatre+Parkway,+Mountain+View,+California")
+        val gmmIntentUri = Uri.parse("geo:0,0?q=${coordinates}")
         val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
         mapIntent.setPackage("com.google.android.apps.maps")
         if (mapIntent.resolveActivity(context.packageManager) != null) {
