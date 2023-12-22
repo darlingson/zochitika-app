@@ -12,10 +12,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -24,8 +27,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
@@ -54,16 +60,8 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun DisplayDataFromEndpoint() {
-    val coroutineScope = rememberCoroutineScope()
-    var data by remember { mutableStateOf<List<Chochitika>?>(null) }
-    val context: Context = LocalContext.current
-    LaunchedEffect(Unit) {
-        coroutineScope.launch {
-            data = fetchDataFromEndpoint(context)
-        }
-    }
-
+fun DisplayDataFromEndpoint(data: List<Chochitika>?) {
+    var context = LocalContext.current
     LazyColumn {
         data?.let {
             items(it.size) { item ->
@@ -89,7 +87,7 @@ fun DisplayDataFromEndpoint() {
                             intent.putExtra("organiser", it[item].organiser)
                             intent.putExtra("date", it[item].date)
                             startActivity(context, intent, null)
-                                   },
+                        },
                 ) {
                     Column(
                         modifier = Modifier
@@ -107,26 +105,50 @@ fun DisplayDataFromEndpoint() {
     }
 }
 
-
-
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun MainScreen() {
+    var searchQuery by remember { mutableStateOf("") }
+    var filteredData by remember { mutableStateOf<List<Chochitika>?>(null) }
+
+    val coroutineScope = rememberCoroutineScope()
+    var context = LocalContext.current
+    LaunchedEffect(searchQuery) {
+        coroutineScope.launch {
+            filteredData = filterData(searchQuery, fetchDataFromEndpoint(context))
+        }
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(text = "Zochitika App")
                 },
-                actions = {
-                    // Add any actions here
-                }
-            )
+                actions = {})
+                    // Add search bar here)
+
+
         },
         content = {
             Column(Modifier.padding(it)) {
-                Text(text = "Zochitila",)
-                DisplayDataFromEndpoint()
+                TextField(
+                    value = searchQuery,
+                    onValueChange = {
+                        searchQuery = it
+                    },
+                    label = { Text("Search") },
+                    modifier = Modifier.padding(8.dp).fillMaxWidth(),
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            LocalSoftwareKeyboardController
+                        }
+                    )
+                )
+                DisplayDataFromEndpoint(filteredData)
             }
         }
     )
@@ -150,8 +172,17 @@ suspend fun fetchDataFromEndpoint(context: Context): List<Chochitika> {
     }
 }
 
+fun filterData(query: String, data: List<Chochitika>?): List<Chochitika>? {
+    return data?.filter {
+        it.title?.contains(query, ignoreCase = true) == true ||
+                it.organiser?.contains(query, ignoreCase = true) == true ||
+                it.date?.contains(query, ignoreCase = true) == true
+    }
+}
+
 @Preview
 @Composable
 fun PreviewDisplayDataFromEndpoint() {
-    DisplayDataFromEndpoint()
+    // You can create a preview using mock data or a placeholder
+    DisplayDataFromEndpoint(listOf(Chochitika("1", "Title 1", "Author 1", "2023-01-01")))
 }
