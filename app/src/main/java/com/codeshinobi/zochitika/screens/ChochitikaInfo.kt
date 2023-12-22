@@ -1,31 +1,28 @@
 package com.codeshinobi.zochitika.screens
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import com.codeshinobi.zochitika.screens.ui.theme.ZochitikaTheme
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.io.BufferedInputStream
-import java.net.HttpURLConnection
-import java.net.URL
 
 class ChochitikaInfo : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,38 +43,50 @@ class ChochitikaInfo : ComponentActivity() {
 
 @Composable
 fun ChochitikaInfoMain(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-@Composable
-fun LoadImage(url: String) {
-    val bitmapState: MutableState<Bitmap?> = remember { mutableStateOf(null) }
-
-    LaunchedEffect(url) {
-        val urlConnection = URL(url).openConnection() as HttpURLConnection
-        try {
-            urlConnection.doInput = true
-            urlConnection.connect()
-            val input = BufferedInputStream(urlConnection.inputStream)
-            val bitmap = BitmapFactory.decodeStream(input)
-            withContext(Dispatchers.Main) {
-                bitmapState.value = bitmap
-            }
-        } catch (e: Exception) {
-            // Handle the exception
-        } finally {
-            urlConnection.disconnect()
-        }
+    Column {
+        Text(
+            text = "Hello $name!",
+            modifier = modifier
+                .fillMaxWidth())
+        imageFromURL()
     }
-}
 
+}
 @Composable
-fun DisplayImageFromUrl(url: String) {
-    val bitmapState = LoadImage(url)
-    bitmapState.value?.let { bitmap ->
-        Image(bitmap = bitmap.asImageBitmap(), contentDescription = null)
+fun imageFromURL() {
+    // on below line we are creating a column,
+    Column(
+        // in this column we are adding modifier
+        // to fill max size, mz height and max width
+        modifier = Modifier
+            .fillMaxSize()
+            .fillMaxHeight()
+            .fillMaxWidth()
+            // on below line we are adding
+            // padding from all sides.
+            .padding(10.dp),
+        // on below line we are adding vertical
+        // and horizontal arrangement.
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        // on below line we are adding image for our image view.
+        Image(
+            // on below line we are adding the image url
+            // from which we will  be loading our image.
+            painter = rememberAsyncImagePainter("https://media.geeksforgeeks.org/wp-content/uploads/20210101144014/gfglogo.png"),
+
+            // on below line we are adding content
+            // description for our image.
+            contentDescription = "gfg image",
+
+            // on below line we are adding modifier for our
+            // image as wrap content for height and width.
+            modifier = Modifier
+                .wrapContentSize()
+                .wrapContentHeight()
+                .wrapContentWidth()
+        )
     }
 }
 @Preview(showBackground = true)
