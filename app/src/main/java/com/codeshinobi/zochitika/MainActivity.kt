@@ -165,7 +165,7 @@ private val json = Json { ignoreUnknownKeys = true }
 suspend fun fetchDataFromEndpoint(context: Context): List<Chochitika> {
     return withContext(Dispatchers.IO) {
         try {
-            val response = URL("https://darlingson.pythonanywhere.com/zochitika").readText()
+            val response = URL(Endpoints.ZochitikaList).readText()
             Log.d("EndpointResponse", response) // Log the response
             json.decodeFromString<List<Chochitika>>(response)
         } catch (e: FileNotFoundException) {
