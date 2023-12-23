@@ -2,6 +2,7 @@ package com.codeshinobi.zochitika
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -45,6 +46,8 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import java.io.FileNotFoundException
 import java.net.URL
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -59,6 +62,8 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+
+@android.support.annotation.RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun DisplayDataFromEndpoint(data: List<Chochitika>?) {
     var context = LocalContext.current
@@ -95,6 +100,11 @@ fun DisplayDataFromEndpoint(data: List<Chochitika>?) {
                             .padding(16.dp),
                         verticalArrangement = Arrangement.Center
                     ) {
+                        val dateSt = "2017-04-08T18:39:42Z"
+                        val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
+                        val formattedDate = LocalDateTime.parse(dateSt, dateFormatter)
+                        val res = DateTimeFormatter.ofPattern("MMMM dd, yyyy | hh:mma").format(formattedDate)
+
                         Text(text = it[item].title ?: "No Title")
                         Text(text = "by : ${it[item].organiser ?: "No Author"}")
                         Text(text = it[item].date ?: "No Date")
