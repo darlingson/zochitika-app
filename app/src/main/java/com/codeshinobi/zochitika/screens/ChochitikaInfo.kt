@@ -22,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.codeshinobi.zochitika.screens.ui.theme.ZochitikaTheme
@@ -53,8 +54,6 @@ fun ChochitikaInfoMain(name: String, modifier: Modifier = Modifier, intent: Inte
             modifier = modifier
                 .fillMaxWidth()
         )
-
-        imageFromURL()
         EventInfo(intent)
 
     }
@@ -76,19 +75,54 @@ fun EventInfo(intent: Intent) {
     var type:String = intent.getStringExtra("type").toString()
     var id:String = intent.getStringExtra("id").toString()
     Column {
-        Text(text = title)
-        Text(text = "by : ${organiser}")
-        Text(text = "description : ${description}")
-        Text(text = "at : ${location}")
-        Text(text = "on : ${date}")
-        Text(text = "Start Time : ${time}")
-        Text(text = "address : ${address}")
-        Text(text = "type : ${type}")
-        Text(text = "Fee : ${entry_fee}")
+        var cpadding = Modifier.padding(16.dp)
+        Text(
+            text = title,
+            modifier = Modifier.fillMaxWidth().padding(16.dp),
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.headlineLarge
+        )
+        imageFromURL()
+        Text(
+            text = "Organised by : ${organiser}",
+            modifier = Modifier.fillMaxWidth().padding(16.dp),
+        )
+        Text(
+            text = "${description}",
+            modifier = Modifier.fillMaxWidth().padding(16.dp),
+        )
+        Text(
+            text = "at : ${location}",
+            modifier = Modifier.fillMaxWidth().padding(16.dp),
+        )
+        Text(
+            text = "on : ${date}",
+            modifier = Modifier.fillMaxWidth().padding(16.dp),
+        )
+        Text(
+            text = "Start Time : ${time}",
+            modifier = Modifier.fillMaxWidth().padding(16.dp),
+        )
+        Text(
+            text = "address : ${address}",
+            modifier = Modifier.fillMaxWidth().padding(16.dp),
+            )
+        Text(
+            text = "type : ${type}",
+            modifier = Modifier.fillMaxWidth().padding(16.dp),
+        )
+        Text(
+            text = "Fee : ${entry_fee}",
+            modifier = Modifier.fillMaxWidth().padding(16.dp),
+        )
         if (coordinates.isNotEmpty())
             GMButton(title = "view location", coordinates = coordinates)
-        else if (address.isNotEmpty())
-            Text(text = "coordinates : ${coordinates}")
+        else if (coordinates.isEmpty() and address.isNotEmpty())
+            GMButton(title = "view location", coordinates = address)
+        else if (coordinates.isEmpty() and address.isEmpty())
+        {
+
+        }
     }
 }
 @Composable
