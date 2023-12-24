@@ -25,6 +25,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import com.codeshinobi.zochitika.Endpoints
 import com.codeshinobi.zochitika.screens.ui.theme.ZochitikaTheme
 
 
@@ -83,11 +84,11 @@ fun EventInfo(intent: Intent) {
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.headlineLarge
         )
-        if (poster_path.isEmpty()) {
+        if (poster_path.isEmpty()){
             imageFromURL()
-        }
+            }
         else {
-            imageFromURL(poster_path)
+            imageFromURL(Endpoints.poster_path_endpoint + poster_path)
         }
         Text(
             text = "Organised by : ${organiser}",
@@ -148,7 +149,7 @@ fun GMButton(title: String, coordinates: String) {
 }
 @Composable
 fun imageFromURL(path: String = "https://picsum.photos/600?blur=2") {
-    // on below line we are creating a column,
+
     Column(
         // in this column we are adding modifier
         // to fill max size, mz height and max width
@@ -168,9 +169,11 @@ fun imageFromURL(path: String = "https://picsum.photos/600?blur=2") {
         Image(
             // on below line we are adding the image url
             // from which we will  be loading our image.
-            painter = rememberAsyncImagePainter("https://picsum.photos/600?blur=2"),
+            painter = rememberAsyncImagePainter(
+                if (path.startsWith("http")) path else "https://picsum.photos/600?blur=2"
+                ),
 
-            // on below line we are adding content
+        // on below line we are adding content
             // description for our image.
             contentDescription = "gfg image",
 
