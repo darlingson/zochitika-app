@@ -88,7 +88,8 @@ fun EventInfo(intent: Intent) {
             .padding(bottom = 10.dp)
     ){
         var cpadding = Modifier.padding(16.dp)
-        Text(
+        if (title != "null") {
+            Text(
             text = title,
             modifier = Modifier
                 .fillMaxWidth()
@@ -96,61 +97,78 @@ fun EventInfo(intent: Intent) {
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.headlineLarge
         )
+        }
         if (poster_path == "null"){
             imageFromURL()
             }
         else {
             imageFromURL(Endpoints.poster_path_endpoint + poster_path)
         }
-        Text(
-            text = "Organised by : ${organiser}",
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-        )
-        Text(
-            text = "${description}",
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            textAlign = TextAlign.Justify
-        )
-        Text(
-            text = "at : ${location}",
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-        )
-        Text(
-            text = "on : ${date}",
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-        )
-        Text(
-            text = "Start Time : ${time}",
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-        )
-        Text(
-            text = "address : ${address}",
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
+        if (organiser != "null") {
+            Text(
+                text = "Organised by : ${organiser}",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
             )
-        Text(
-            text = "type : ${type}",
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-        )
-        Text(
-            text = "Fee : ${entry_fee}",
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-        )
+        }
+        if (description != "null"){
+            Text(
+                text = "${description}",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                textAlign = TextAlign.Justify
+            )
+        }
+        if (location != "null"){
+            Text(
+                text = "at : ${location}",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+            )
+        }
+        if (date != "null"){
+            Text(
+                text = "on : ${date}",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+            )
+        }
+        if (time != "null"){
+            Text(
+                text = "Start Time : ${time}",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+            )
+        }
+        if (address != "null"){
+            Text(
+                text = "address : ${address}",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+            )
+        }
+        if (type != "null"){
+            Text(
+                text = "type : ${type}",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+            )
+        }
+        if (entry_fee != "null"){
+            Text(
+                text = "Fee : ${entry_fee}",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+            )
+        }
         if (coordinates.isNotEmpty())
             GMButton(title = "view location", coordinates = coordinates)
         else if (coordinates.isEmpty() and address.isNotEmpty())
