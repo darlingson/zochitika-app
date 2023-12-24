@@ -94,6 +94,7 @@ fun EventInfo(intent: Intent) {
         Text(
             text = "${description}",
             modifier = Modifier.fillMaxWidth().padding(16.dp),
+            textAlign = TextAlign.Justify
         )
         Text(
             text = "at : ${location}",
