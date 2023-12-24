@@ -7,7 +7,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -79,7 +81,12 @@ fun EventInfo(intent: Intent) {
     var splitDate = date.split(" ")
     var tempDate = "${splitDate.get(0)} ${splitDate.get(1)} ${splitDate.get(2)}"
     date = tempDate
-    Column (modifier = Modifier.verticalScroll(enabled = true, state = ScrollState(0))){
+    Column (
+        modifier = Modifier
+            .verticalScroll(enabled = true, state = ScrollState(0))
+            .padding(5.dp)
+            .padding(bottom = 10.dp)
+    ){
         var cpadding = Modifier.padding(16.dp)
         Text(
             text = title,
@@ -89,7 +96,7 @@ fun EventInfo(intent: Intent) {
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.headlineLarge
         )
-        if (poster_path.isEmpty()){
+        if (poster_path == "null"){
             imageFromURL()
             }
         else {
@@ -155,8 +162,9 @@ fun EventInfo(intent: Intent) {
     }
 }
 @Composable
-fun GMButton(title: String, coordinates: String) {
+fun GMButton(title: String, coordinates: String,modifier: Modifier = Modifier) {
     val context = LocalContext.current
+    Row (modifier = modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center){
     Button(onClick = {
 //        val gmmIntentUri = Uri.parse("geo:0,0?q=1600+Amphitheatre+Parkway,+Mountain+View,+California")
         val gmmIntentUri = Uri.parse("geo:0,0?q=${coordinates}")
@@ -165,8 +173,10 @@ fun GMButton(title: String, coordinates: String) {
         if (mapIntent.resolveActivity(context.packageManager) != null) {
             context.startActivity(mapIntent)
         }
-    }) {
+    },
+        ) {
         Text("Open Google Maps")
+    }
     }
 }
 @Composable
