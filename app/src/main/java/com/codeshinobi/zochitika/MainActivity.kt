@@ -88,6 +88,7 @@ fun DisplayDataFromEndpoint(data: List<Chochitika>?) {
                             intent.putExtra("title", it[item].title)
                             intent.putExtra("organiser", it[item].organiser)
                             intent.putExtra("date", it[item].date)
+                            intent.putExtra("poster_path", it[item].poster_path)
                             startActivity(context, intent, null)
                         },
                 ) {

@@ -74,6 +74,7 @@ fun EventInfo(intent: Intent) {
     var time:String = intent.getStringExtra("time").toString()
     var type:String = intent.getStringExtra("type").toString()
     var id:String = intent.getStringExtra("id").toString()
+    var poster_path:String = intent.getStringExtra("poster_path").toString()
     Column {
         var cpadding = Modifier.padding(16.dp)
         Text(
@@ -82,7 +83,12 @@ fun EventInfo(intent: Intent) {
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.headlineLarge
         )
-        imageFromURL()
+        if (poster_path.isEmpty()) {
+            imageFromURL()
+        }
+        else {
+            imageFromURL(poster_path)
+        }
         Text(
             text = "Organised by : ${organiser}",
             modifier = Modifier.fillMaxWidth().padding(16.dp),
@@ -141,7 +147,7 @@ fun GMButton(title: String, coordinates: String) {
     }
 }
 @Composable
-fun imageFromURL() {
+fun imageFromURL(path: String = "https://picsum.photos/600?blur=2") {
     // on below line we are creating a column,
     Column(
         // in this column we are adding modifier
