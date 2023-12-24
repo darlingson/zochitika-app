@@ -73,6 +73,10 @@ fun EventInfo(intent: Intent) {
     var type:String = intent.getStringExtra("type").toString()
     var id:String = intent.getStringExtra("id").toString()
     var poster_path:String = intent.getStringExtra("poster_path").toString()
+
+    var splitDate = date.split(" ")
+    var tempDate = "${splitDate.get(0)} ${splitDate.get(1)} ${splitDate.get(2)}"
+    date = tempDate
     Column (modifier = Modifier.verticalScroll(enabled = true, state = ScrollState(0))){
         var cpadding = Modifier.padding(16.dp)
         Text(
