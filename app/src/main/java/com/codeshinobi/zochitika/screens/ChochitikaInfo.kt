@@ -12,15 +12,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -81,7 +83,9 @@ fun EventInfo(intent: Intent) {
         var cpadding = Modifier.padding(16.dp)
         Text(
             text = title,
-            modifier = Modifier.fillMaxWidth().padding(16.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.headlineLarge
         )
@@ -93,36 +97,52 @@ fun EventInfo(intent: Intent) {
         }
         Text(
             text = "Organised by : ${organiser}",
-            modifier = Modifier.fillMaxWidth().padding(16.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
         )
         Text(
             text = "${description}",
-            modifier = Modifier.fillMaxWidth().padding(16.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
             textAlign = TextAlign.Justify
         )
         Text(
             text = "at : ${location}",
-            modifier = Modifier.fillMaxWidth().padding(16.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
         )
         Text(
             text = "on : ${date}",
-            modifier = Modifier.fillMaxWidth().padding(16.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
         )
         Text(
             text = "Start Time : ${time}",
-            modifier = Modifier.fillMaxWidth().padding(16.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
         )
         Text(
             text = "address : ${address}",
-            modifier = Modifier.fillMaxWidth().padding(16.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
             )
         Text(
             text = "type : ${type}",
-            modifier = Modifier.fillMaxWidth().padding(16.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
         )
         Text(
             text = "Fee : ${entry_fee}",
-            modifier = Modifier.fillMaxWidth().padding(16.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
         )
         if (coordinates.isNotEmpty())
             GMButton(title = "view location", coordinates = coordinates)
@@ -151,13 +171,32 @@ fun GMButton(title: String, coordinates: String) {
 }
 @Composable
 fun imageFromURL(path: String = "https://picsum.photos/600?blur=2") {
+    var imageSize by remember {
+        mutableStateOf(200.dp)
+    }
+    var imageEnladged by remember {
+        mutableStateOf(false)
+    }
+    Surface (
+        modifier = Modifier.height(imageSize),
+        onClick ={
+            if (imageEnladged){
+                imageSize =200.dp
+                imageEnladged = false
+            }
+            else{
+                imageSize = 500.dp
+                imageEnladged = true
+            }
+        }
+    ){
+
 
     Column(
         // in this column we are adding modifier
         // to fill max size, mz height and max width
         modifier = Modifier
 //            .fillMaxSize()
-            .height(200.dp)
             .fillMaxWidth()
             // on below line we are adding
             // padding from all sides.
@@ -173,19 +212,22 @@ fun imageFromURL(path: String = "https://picsum.photos/600?blur=2") {
             // from which we will  be loading our image.
             painter = rememberAsyncImagePainter(
                 if (path.startsWith("http")) path else "https://picsum.photos/600?blur=2"
-                ),
+            ),
 
-        // on below line we are adding content
+            // on below line we are adding content
             // description for our image.
-            contentDescription = "gfg image",
+            contentDescription = "Event poster",
 
             // on below line we are adding modifier for our
             // image as wrap content for height and width.
             modifier = Modifier
-                .wrapContentSize()
-                .wrapContentHeight()
-                .wrapContentWidth()
+//                .wrapContentSize()
+//                .wrapContentHeight()
+//                .wrapContentWidth()
+                .width(imageSize)
+                .height(imageSize)
         )
+    }
     }
 }
 //@Preview(showBackground = true)
