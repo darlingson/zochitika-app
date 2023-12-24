@@ -16,5 +16,6 @@ data class Chochitika(
     val organiser:String? = null,
     val time:String? = null,
     val title:String? = null,
-    val type:String? = null
+    val type:String? = null,
+    val poster_path:String? = null
 )
