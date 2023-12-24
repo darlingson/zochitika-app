@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -50,11 +52,6 @@ class ChochitikaInfo : ComponentActivity() {
 @Composable
 fun ChochitikaInfoMain(name: String, modifier: Modifier = Modifier, intent: Intent) {
     Column {
-        Text(
-            text = "Hello $name!",
-            modifier = modifier
-                .fillMaxWidth()
-        )
         EventInfo(intent)
 
     }
@@ -76,7 +73,7 @@ fun EventInfo(intent: Intent) {
     var type:String = intent.getStringExtra("type").toString()
     var id:String = intent.getStringExtra("id").toString()
     var poster_path:String = intent.getStringExtra("poster_path").toString()
-    Column {
+    Column (modifier = Modifier.verticalScroll(enabled = true, state = ScrollState(0))){
         var cpadding = Modifier.padding(16.dp)
         Text(
             text = title,
