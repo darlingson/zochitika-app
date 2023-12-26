@@ -11,17 +11,24 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.twotone.DateRange
 import androidx.compose.material3.Card
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -35,6 +42,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
@@ -145,8 +153,22 @@ fun DisplayDataFromEndpoint(data: List<Chochitika>?) {
                             )
                         }
                         Row {
-                            Text(text = "Type : ${it[item].address ?: "No address"}")
-                            Text(text = "Type : ${it[item].location ?: "No location"}")
+                            Box(modifier = Modifier.weight(1f)){
+//                                Text(
+//                                    text = "${it[item].location ?: "No location"}"
+//                                )
+                                it[item].location?.let { it1 ->
+                                    IconTextRow(
+                                        icon = Icons.Default.LocationOn, text = it1
+                                    )
+                                }
+                            }
+                            Box(modifier = Modifier.weight(1f)){
+//                                Text(
+//                                    text = "${it[item].time ?: "No Time"}"
+//                                )
+                                IconTextRow(icon = Icons.TwoTone.DateRange, text = it[item].time ?: "No Time")
+                            }
                         }
                     }
                 }
@@ -250,6 +272,32 @@ fun filterData(query: String, data: List<Chochitika>?): List<Chochitika>? {
         it.title?.contains(query, ignoreCase = true) == true ||
                 it.organiser?.contains(query, ignoreCase = true) == true ||
                 it.date?.contains(query, ignoreCase = true) == true
+    }
+}
+@Composable
+fun IconTextRow(icon: ImageVector, text: String) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        // Icon
+        Icon(
+            imageVector = icon,
+            contentDescription = null, // Decorative element
+            modifier = Modifier
+                .size(24.dp)
+                .padding(end = 8.dp)
+        )
+
+        // Text
+        Text(
+            text = text,
+            style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(end = 16.dp) // Adjust padding as needed
+        )
     }
 }
 
