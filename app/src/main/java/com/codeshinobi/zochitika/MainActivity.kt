@@ -12,6 +12,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -39,6 +40,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.codeshinobi.zochitika.models.Chochitika
@@ -130,12 +132,21 @@ fun DisplayDataFromEndpoint(data: List<Chochitika>?) {
                         if (output == todaysDate){
                             Text(
                                 text = "Today",
-                                color = androidx.compose.ui.graphics.Color.Gray,
-                                fontWeight = androidx.compose.ui.text.font.FontWeight.Bold
+                                color = androidx.compose.ui.graphics.Color.Black,
+                                fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+                                fontStyle = androidx.compose.ui.text.font.FontStyle.Normal,
+                                fontSize = 20.sp
                             )
                         }
                         else{
-                            Text(text = output ?: "No Date")
+                            Text(
+                                text = output ?: "No Date",
+                                fontSize = 20.sp
+                            )
+                        }
+                        Row {
+                            Text(text = "Type : ${it[item].address ?: "No address"}")
+                            Text(text = "Type : ${it[item].location ?: "No location"}")
                         }
                     }
                 }
