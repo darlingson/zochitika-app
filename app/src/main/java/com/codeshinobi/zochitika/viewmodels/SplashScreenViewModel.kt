@@ -15,7 +15,7 @@ class SplashViewModel: ViewModel() {
 
     init {
         viewModelScope.launch {
-            delay(2000)
+            delay(500)
             mutableStateFlow.value = false
         }
     }

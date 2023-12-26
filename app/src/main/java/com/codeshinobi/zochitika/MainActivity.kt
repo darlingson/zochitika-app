@@ -7,6 +7,8 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -50,6 +52,9 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import java.io.FileNotFoundException
 import java.net.URL
+import java.text.SimpleDateFormat
+import java.util.Date
+
 class MainActivity : ComponentActivity() {
     private val viewModel: SplashViewModel by viewModels()
     @OptIn(ExperimentalMaterial3Api::class)
@@ -69,6 +74,7 @@ class MainActivity : ComponentActivity() {
 
 
 //@android.support.annotation.RequiresApi(Build.VERSION_CODES.O)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun DisplayDataFromEndpoint(data: List<Chochitika>?) {
     var context = LocalContext.current
@@ -78,6 +84,9 @@ fun DisplayDataFromEndpoint(data: List<Chochitika>?) {
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .animateItemPlacement(
+                            animationSpec = tween(durationMillis = 1000)
+                        )
                         .padding(8.dp)
                         .clickable {
                             // Handle click event here
@@ -110,9 +119,24 @@ fun DisplayDataFromEndpoint(data: List<Chochitika>?) {
                         var splitdate = output?.split(" ")
                         output = splitdate?.get(0) + " " + splitdate?.get(1) + " " + splitdate?.get(2)
 
+                        val sdf = SimpleDateFormat("E, dd MMM")
+                        val todaysDate = sdf.format(Date())
+                        
+                        
                         Text(text = it[item].title ?: "No Title")
-                        Text(text = "by : ${it[item].organiser ?: "No Author"}")
-                        Text(text = output ?: "No Date")
+                        Text(text = "by : ${it[item].organiser ?: "No Organiser"}")
+//                        Text(text = output ?: "No Date")
+//                        Text(text = todaysDate)
+                        if (output == todaysDate){
+                            Text(
+                                text = "Today",
+                                color = androidx.compose.ui.graphics.Color.Gray,
+                                fontWeight = androidx.compose.ui.text.font.FontWeight.Bold
+                            )
+                        }
+                        else{
+                            Text(text = output ?: "No Date")
+                        }
                     }
                 }
             }
