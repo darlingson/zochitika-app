@@ -46,6 +46,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -64,6 +65,7 @@ import java.io.FileNotFoundException
 import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.Date
+
 
 class MainActivity : ComponentActivity() {
     private val viewModel: SplashViewModel by viewModels()
@@ -296,7 +298,9 @@ fun IconTextRow(icon: ImageVector, text: String) {
             style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(end = 16.dp) // Adjust padding as needed
+                .padding(end = 16.dp),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         )
     }
 }
