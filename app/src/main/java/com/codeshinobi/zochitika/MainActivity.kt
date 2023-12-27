@@ -33,6 +33,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -136,20 +137,31 @@ fun DisplayDataFromEndpoint(data: List<Chochitika>?) {
                         Text(text = "by : ${it[item].organiser ?: "No Organiser"}")
 //                        Text(text = output ?: "No Date")
 //                        Text(text = todaysDate)
-                        if (output == todaysDate){
-                            Text(
-                                text = "Today",
-                                color = androidx.compose.ui.graphics.Color.Black,
-                                fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-                                fontStyle = androidx.compose.ui.text.font.FontStyle.Normal,
-                                fontSize = 20.sp
-                            )
-                        }
-                        else{
-                            Text(
-                                text = output ?: "No Date",
-                                fontSize = 20.sp
-                            )
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(start = 16.dp, top = 16.dp, end = 16.dp)
+                        ) {
+                            Icon(
+                                painter =  painterResource(id = R.drawable.baseline_calendar_month_24),
+                                contentDescription = "Date",
+                                modifier = Modifier.size(34.dp).padding(end= 8.dp),
+                                tint = androidx.compose.ui.graphics.Color.Black,
+                                )
+                            if (output == todaysDate) {
+                                Text(
+                                    text = "Today",
+                                    color = androidx.compose.ui.graphics.Color.Black,
+                                    fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+                                    fontStyle = androidx.compose.ui.text.font.FontStyle.Normal,
+                                    fontSize = 20.sp
+                                )
+                            } else {
+                                Text(
+                                    text = output ?: "No Date",
+                                    fontSize = 20.sp
+                                )
+                            }
                         }
                         Row {
                             Box(modifier = Modifier.weight(1f)){
@@ -228,7 +240,7 @@ fun MainScreen() {
                     mutableStateOf(false)
                 }
                 var selectedIndex by remember {
-                    mutableStateOf(0)
+                    mutableIntStateOf(0)
                 }
                 DropdownMenu(
                     expanded = expanded,
