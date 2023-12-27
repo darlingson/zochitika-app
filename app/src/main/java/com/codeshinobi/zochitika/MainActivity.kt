@@ -20,9 +20,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.twotone.DateRange
 import androidx.compose.material3.Card
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -42,9 +39,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -161,7 +158,9 @@ fun DisplayDataFromEndpoint(data: List<Chochitika>?) {
 //                                )
                                 it[item].location?.let { it1 ->
                                     IconTextRow(
-                                        icon = Icons.Default.LocationOn, text = it1
+//                                        icon = Icons.Default.LocationOn,
+                                        icon = R.drawable.baseline_location_on_24,
+                                        text = it1
                                     )
                                 }
                             }
@@ -169,7 +168,9 @@ fun DisplayDataFromEndpoint(data: List<Chochitika>?) {
 //                                Text(
 //                                    text = "${it[item].time ?: "No Time"}"
 //                                )
-                                IconTextRow(icon = Icons.TwoTone.DateRange, text = it[item].time ?: "No Time")
+                                IconTextRow(
+                                    icon = R.drawable.baseline_access_time_24,
+                                    text = it[item].time ?: "No Time")
                             }
                         }
                     }
@@ -277,7 +278,7 @@ fun filterData(query: String, data: List<Chochitika>?): List<Chochitika>? {
     }
 }
 @Composable
-fun IconTextRow(icon: ImageVector, text: String) {
+fun IconTextRow(icon: Int, text: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -285,7 +286,7 @@ fun IconTextRow(icon: ImageVector, text: String) {
     ) {
         // Icon
         Icon(
-            imageVector = icon,
+            painter = painterResource(id = icon),
             contentDescription = null, // Decorative element
             modifier = Modifier
                 .size(24.dp)
