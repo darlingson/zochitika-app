@@ -41,7 +41,7 @@ fun NearMeScreen(navController: NavController) {
                         .clip(MaterialTheme.shapes.large)
                 ) {
                     Image(
-                        painter = painterResource(R.drawable.two),
+                        painter = painterResource(R.drawable.baseline_favorite_border_24),
                         contentDescription = "search_screen_bg",
                         contentScale = ContentScale.Crop,
                         modifier = Modifier.fillMaxSize()
