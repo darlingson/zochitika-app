@@ -67,7 +67,9 @@ fun BottomNavigationBar() {
                 MainScreen(navController = navController)
             }
             composable(Screens.Near.route) {
-                NearMeScreen(navController = navController)
+                NearMeScreen(navController = navController, viewModel = ProfileViewModel(
+                    LocalContext.current
+                ))
             }
             composable(Screens.Profile.route) {
                 ProfileScreen(navController = navController, viewModel = ProfileViewModel(

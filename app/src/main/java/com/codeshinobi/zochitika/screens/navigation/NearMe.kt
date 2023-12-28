@@ -1,7 +1,5 @@
 package com.codeshinobi.zochitika.screens.navigation
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,43 +13,38 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.codeshinobi.zochitika.R
 import com.codeshinobi.zochitika.ui.theme.ZochitikaTheme
 
 @Composable
-fun NearMeScreen(navController: NavController) {
+fun NearMeScreen(navController: NavController, viewModel: ProfileViewModel) {
     ZochitikaTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
             Column(
-                modifier = Modifier.fillMaxSize().padding(15.dp),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(15.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
             ) {
                 Box(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
                         .height(250.dp)
                         .padding(horizontal = 15.dp, vertical = 10.dp)
                         .clip(MaterialTheme.shapes.large)
                 ) {
-                    Image(
-                        painter = painterResource(R.drawable.baseline_favorite_border_24),
-                        contentDescription = "search_screen_bg",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.fillMaxSize()
-                    )
+                    Column {
+                        val savedName = viewModel.name
+                        val savedLoc = viewModel.loc
+
+                        Text("Hello $savedName!")
+                        Text("Your current Saved Location is $savedLoc")
+                    }
                 }
-                Text(
-                    "Near Me Screen",
-                    style = MaterialTheme.typography.titleLarge,
-                    modifier = Modifier.padding(vertical = 20.dp)
-                )
             }
         }
     }
