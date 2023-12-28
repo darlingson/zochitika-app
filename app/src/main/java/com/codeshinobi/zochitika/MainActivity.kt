@@ -50,8 +50,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.navigation.NavController
 import com.codeshinobi.zochitika.models.Chochitika
 import com.codeshinobi.zochitika.screens.ChochitikaInfo
+import com.codeshinobi.zochitika.screens.navigation.BottomNavigationBar
 import com.codeshinobi.zochitika.ui.theme.ZochitikaTheme
 import com.codeshinobi.zochitika.viewmodels.SplashViewModel
 import kotlinx.coroutines.Dispatchers
@@ -76,7 +78,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             ZochitikaTheme {
                 // A surface container using the 'background' color fr
-                MainScreen()
+//                MainScreen()
+
+                BottomNavigationBar()
             }
         }
     }
@@ -145,7 +149,9 @@ fun DisplayDataFromEndpoint(data: List<Chochitika>?) {
                             Icon(
                                 painter =  painterResource(id = R.drawable.baseline_calendar_month_24),
                                 contentDescription = "Date",
-                                modifier = Modifier.size(34.dp).padding(end= 8.dp),
+                                modifier = Modifier
+                                    .size(34.dp)
+                                    .padding(end = 8.dp),
                                 tint = androidx.compose.ui.graphics.Color.Black,
                                 )
                             if (output == todaysDate) {
@@ -194,7 +200,7 @@ fun DisplayDataFromEndpoint(data: List<Chochitika>?) {
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
-fun MainScreen() {
+fun MainScreen(navController: NavController) {
     var searchQuery by remember { mutableStateOf("") }
     var filteredData by remember { mutableStateOf<List<Chochitika>?>(null) }
 

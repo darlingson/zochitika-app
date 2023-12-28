@@ -18,6 +18,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.codeshinobi.zochitika.MainScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -62,13 +63,13 @@ fun BottomNavigationBar() {
             startDestination = Screens.Home.route,
             modifier = Modifier.padding(paddingValues = paddingValues)) {
             composable(Screens.Home.route) {
-                //call our composable screens here
+                MainScreen(navController = navController)
             }
             composable(Screens.Near.route) {
-                //call our composable screens here
+                NearMeScreen(navController = navController)
             }
             composable(Screens.Profile.route) {
-                //call our composable screens here
+                ProfileScreen(navController = navController)
             }
         }
     }
