@@ -85,4 +85,6 @@ dependencies {
 
     //splash screen dependency
     implementation("androidx.core:core-splashscreen:1.0.1")
+
+    implementation("androidx.datastore:datastore:1.0.0")
 }
