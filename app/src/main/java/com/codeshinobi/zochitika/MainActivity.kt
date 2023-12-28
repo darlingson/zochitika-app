@@ -50,7 +50,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.datastore.core.DataStore
 import androidx.navigation.NavController
 import com.codeshinobi.zochitika.models.Chochitika
 import com.codeshinobi.zochitika.screens.ChochitikaInfo
@@ -66,13 +65,10 @@ import java.io.FileNotFoundException
 import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.prefs.Preferences
-import androidx.datastore.preferences.preferencesDataStore
 
 
 class MainActivity : ComponentActivity() {
     private val viewModel: SplashViewModel by viewModels()
-    val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
